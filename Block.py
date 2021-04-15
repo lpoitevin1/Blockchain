@@ -5,12 +5,17 @@ from hashlib import sha256
 
 
 class Block :
-    def __init__(self, index, time, dst, rcv, amount):
-        self.index = index
-        self.time = time
-        self.dst = dst 
-        self.rcv = rcv
-        self.amount = amount
+    def __init__(self, previous_hash, transaction, first=False):
+        self.transactions = []
+        self.pending_transaction = []
+        
+        if first : 
+            self.previous_hash = None
+        else:
+            self.previous_hash = previous_hash
+        self.pending_transaction.append(transaction)
+        self.hash_id = self.compute_hash()
+        self.proof = False
     
     def compute_hash(self):
         # Dump json object
@@ -20,6 +25,5 @@ class Block :
         return hashing_block
     
 
+    
 
-b = Block(0,'ez','John','Jane','100')
-b.compute_hash()
